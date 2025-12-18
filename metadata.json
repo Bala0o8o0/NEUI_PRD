@@ -1,0 +1,7 @@
+{
+  "name": "NEUI PRD",
+  "description": "A sophisticated tool to generate Product Requirements Documents (PRDs) using Gemini 3 Pro, featuring voice-to-text dictation via Gemini 2.5 Flash.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

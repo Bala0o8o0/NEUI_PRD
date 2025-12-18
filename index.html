@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEUI PRD - AI Architect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --terminal-green: #00ff41;
+        --terminal-bg: #050505;
+        --terminal-dim: #008f11;
+        --terminal-dark: #003300;
+        --color-your: #bbf7d0; /* Tailwind green-200 */
+      }
+      
+      body { 
+        font-family: 'Courier Prime', monospace; 
+        background-color: var(--terminal-bg);
+        color: var(--terminal-green);
+        overflow-x: hidden;
+      }
+      
+      h1, h2, h3, .font-heading {
+        font-family: 'VT323', monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      /* Custom scrollbar for Terminal Mode */
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #000; border-left: 1px solid #111; }
+      ::-webkit-scrollbar-thumb { background: #003300; border: 1px solid var(--terminal-green); }
+      ::-webkit-scrollbar-thumb:hover { background: var(--terminal-dim); }
+
+      /* Retro Textarea Styles */
+      .retro-textarea {
+        background-color: #020202;
+        /* Subtle Grid Pattern */
+        background-image:
+          linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
+        background-size: 20px 20px;
+        background-position: 0 0;
+        
+        color: var(--terminal-green);
+        caret-color: var(--terminal-green);
+        
+        /* Recessed Screen Look */
+        box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
+        border: 1px solid #111;
+        transition: all 0.3s ease;
+      }
+      
+      .retro-textarea:focus {
+        border-color: var(--terminal-dim);
+        box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+        outline: none;
+      }
+
+      /* Utilities */
+      .fade-in { animation: fadeIn 0.4s steps(10, end) forwards; }
+      .slide-up { animation: slideUp 0.4s steps(10, end) forwards; }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .glitch-text:hover {
+        animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+      }
+
+      @keyframes glitch {
+        0% { transform: translate(0) }
+        20% { transform: translate(-2px, 2px) }
+        40% { transform: translate(-2px, -2px) }
+        60% { transform: translate(2px, 2px) }
+        80% { transform: translate(2px, -2px) }
+        100% { transform: translate(0) }
+      }
+
+      /* Slow Glitch Effect for Logo */
+      @keyframes glitchSlow {
+        0%, 92% { transform: translate(0); text-shadow: none; opacity: 1; }
+        93% { transform: translate(-2px, 1px); text-shadow: 2px 0 #ff0000, -2px 0 #0000ff; opacity: 0.8; }
+        94% { transform: translate(1px, -1px); text-shadow: -2px 0 #ff0000, 2px 0 #0000ff; opacity: 0.9; }
+        95% { transform: translate(0, 2px); text-shadow: none; opacity: 1; }
+        96% { transform: translate(-1px, 0); opacity: 0.8; }
+        97% { transform: translate(0); opacity: 1; }
+        98% { transform: skewX(10deg); }
+        100% { transform: skewX(0); }
+      }
+
+      .glitch-slow {
+        animation: glitchSlow 2s infinite;
+        display: inline-block; /* Required for transform to work on span */
+      }
+
+      .blink-cursor {
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+
+      /* Voice Visualizer Wave Animation */
+      @keyframes voiceWave {
+        0%, 100% { transform: scaleY(1); }
+        50% { transform: scaleY(3); }
+      }
+      
+      .animate-voice-wave {
+        animation-name: voiceWave;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        transform-origin: bottom;
+      }
+
+      /* Shimmer Animation for Buttons */
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+
+      /* RETRO SPACE INVADER LOADER (Pixel Art via Box Shadow) */
+      .pixel-invader {
+        display: block;
+        width: 4px;
+        height: 4px;
+        background: transparent;
+        color: #00cc33; /* Darker green to avoid being too bright */
+        position: absolute;
+        top: 0;
+        left: 0;
+        /* Pixel Art Definition (Frame 1) */
+        box-shadow:
+          8px 0, 32px 0,
+          12px 4px, 28px 4px,
+          8px 8px, 12px 8px, 16px 8px, 20px 8px, 24px 8px, 28px 8px, 32px 8px,
+          4px 12px, 8px 12px, 16px 12px, 20px 12px, 24px 12px, 32px 12px, 36px 12px,
+          0px 16px, 4px 16px, 8px 16px, 12px 16px, 16px 16px, 20px 16px, 24px 16px, 28px 16px, 32px 16px, 36px 16px, 40px 16px,
+          0px 20px, 8px 20px, 12px 20px, 16px 20px, 20px 20px, 24px 20px, 28px 20px, 32px 20px, 40px 20px,
+          0px 24px, 8px 24px, 32px 24px, 40px 24px,
+          12px 28px, 16px 28px, 24px 28px, 28px 28px;
+        animation: invaderDance 0.8s step-end infinite;
+      }
+
+      @keyframes invaderDance {
+        50% {
+          /* Frame 2 - Arms Up/Out */
+          box-shadow:
+            8px 0, 32px 0,
+            12px 4px, 28px 4px,
+            8px 8px, 12px 8px, 16px 8px, 20px 8px, 24px 8px, 28px 8px, 32px 8px,
+            4px 12px, 8px 12px, 16px 12px, 20px 12px, 24px 12px, 32px 12px, 36px 12px,
+            0px 16px, 4px 16px, 8px 16px, 12px 16px, 16px 16px, 20px 16px, 24px 16px, 28px 16px, 32px 16px, 36px 16px, 40px 16px,
+            8px 20px, 12px 20px, 16px 20px, 20px 20px, 24px 20px, 28px 20px, 32px 20px,
+            4px 24px, 36px 24px,
+            0px 28px, 40px 28px;
+        }
+      }
+
+      /* === NEW CYBER BUTTON STYLES === */
+      .cyber-btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 0.8rem 2rem;
+        background-color: rgba(5, 5, 5, 0.9);
+        border: 1px solid #004400;
+        color: #00ff41;
+        font-family: 'VT323', monospace;
+        font-size: 1.125rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 0 10px rgba(0, 50, 0, 0.5);
+        overflow: hidden;
+      }
+
+      .cyber-btn:hover {
+        background-color: rgba(0, 255, 65, 0.1);
+        border-color: #00ff41;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.3), inset 0 0 20px rgba(0, 255, 65, 0.1);
+        text-shadow: 0 0 8px rgba(0, 255, 65, 0.8);
+        color: #fff;
+      }
+
+      .cyber-btn:active {
+        transform: translateY(2px);
+      }
+
+      .cyber-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        filter: grayscale(1);
+      }
+
+      /* Corner Brackets */
+      .cyber-btn::before,
+      .cyber-btn::after {
+        content: '';
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border: 2px solid #00ff41;
+        transition: all 0.3s ease;
+      }
+
+      .cyber-btn::before {
+        top: 0;
+        left: 0;
+        border-right: none;
+        border-bottom: none;
+      }
+
+      .cyber-btn::after {
+        bottom: 0;
+        right: 0;
+        border-left: none;
+        border-top: none;
+      }
+
+      .cyber-btn:hover::before,
+      .cyber-btn:hover::after {
+        width: 100%;
+        height: 100%;
+        border-color: #00ff41;
+        opacity: 0.5;
+      }
+
+      /* Scanline Sweep */
+      .cyber-btn .scan-line {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.4), transparent);
+        transform: skewX(-20deg);
+        transition: left 0.5s ease;
+        pointer-events: none;
+      }
+
+      .cyber-btn:hover .scan-line {
+        left: 200%;
+        transition: left 0.7s ease;
+      }
+
+      /* Secondary Variant - Updated to use YOUR color */
+      .cyber-btn.secondary {
+        border-color: var(--color-your);
+        color: var(--color-your);
+        background: transparent;
+      }
+      .cyber-btn.secondary:hover {
+        border-color: #ffffff;
+        color: #ffffff;
+        background-color: rgba(187, 247, 208, 0.1);
+        box-shadow: 0 0 15px rgba(187, 247, 208, 0.3);
+      }
+      .cyber-btn.secondary::before,
+      .cyber-btn.secondary::after {
+        border-color: var(--color-your);
+      }
+      .cyber-btn.secondary:hover::before,
+      .cyber-btn.secondary:hover::after {
+        border-color: #ffffff;
+      }
+      .cyber-btn.secondary .scan-line {
+        background: linear-gradient(90deg, transparent, rgba(187, 247, 208, 0.6), transparent);
+      }
+
+      /* Highlight Variant (Legacy support, but visually similar to new secondary) */
+      .cyber-btn.highlight {
+        border-color: var(--color-your);
+        color: var(--color-your);
+        box-shadow: inset 0 0 15px rgba(187, 247, 208, 0.25);
+        text-shadow: 0 0 5px rgba(187, 247, 208, 0.5);
+      }
+      .cyber-btn.highlight:hover {
+        background-color: rgba(187, 247, 208, 0.15);
+        border-color: #ffffff;
+        color: #ffffff;
+        box-shadow: 0 0 25px rgba(187, 247, 208, 0.6), inset 0 0 35px rgba(187, 247, 208, 0.2);
+        text-shadow: 0 0 15px rgba(187, 247, 208, 1);
+      }
+      .cyber-btn.highlight::before,
+      .cyber-btn.highlight::after {
+        border-color: var(--color-your);
+      }
+      .cyber-btn.highlight:hover::before,
+      .cyber-btn.highlight:hover::after {
+        border-color: #fff;
+      }
+      .cyber-btn.highlight .scan-line {
+        background: linear-gradient(90deg, transparent, rgba(187, 247, 208, 0.6), transparent);
+      }
+
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
